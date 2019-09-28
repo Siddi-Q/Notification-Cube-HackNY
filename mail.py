@@ -1,6 +1,6 @@
 import time
 import imaplib
-import email
+import serial
 
 ORG_EMAIL   = "@gmail.com"
 FROM_EMAIL  = "test50201" + ORG_EMAIL
@@ -19,10 +19,16 @@ def readMail():
         id_list = mail_ids.split()
         if(mail_ids[-1] == latest_email_id):
             print("No New Email")
-            time.sleep(10)
+            time.sleep(3)
         else:
             print("A new email has arrived!")
+            sendSignal()
             latest_email_id = mail_ids[-1]
-            time.sleep(10)
+            time.sleep(3)
 
+def sendSignal():
+    arduino.write(b'1')
+
+
+arduino = serial.Serial('COM3', 9600)
 readMail()
